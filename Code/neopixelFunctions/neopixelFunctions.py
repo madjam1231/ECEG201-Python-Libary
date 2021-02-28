@@ -9,7 +9,7 @@ A color will always be represented by a tuple of 3 values 0-255 which represent 
 
 import board
 import neopixel
-from time import sleep
+
 #This bit here might be better done a different way, like have the students define all thing in their code.py and just pass it into the methods 
 #------------
 PIN = board.D5
