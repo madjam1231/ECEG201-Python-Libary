@@ -88,26 +88,27 @@ class ESP_Tools():
 
        
 
-##Example 
-tool_time = ESP_Tools("JamesDesktop", "Gemima12", 1000433, 'TPQROJW5N4FYQDQB')
+##Example
+if(True):
+    tool_time = ESP_Tools("JamesDesktop", "Gemima12", 1000433, 'TPQROJW5N4FYQDQB')
 
 
-print("Testing pushing to a Channel")
-print("pushing '1231' and then '9876' both to field 2")
+    print("Testing pushing to a Channel")
+    print("pushing '1231' and then '9876' both to field 2")
 
-tool_time.push_to_field(2, 1231)
-tool_time.push_to_field(2, 9876)
+    tool_time.push_to_field(2, 1231)
+    tool_time.push_to_field(2, 9876)
 
-print("Done")
-print()
+    print("Done")
+    print()
 
-print("testing pulling from a field")
-print("Pulling from field 2 so it should be the same as what I pushed")
-print()
+    print("testing pulling from a field")
+    print("Pulling from field 2 so it should be the same as what I pushed")
+    print()
 
-response = (tool_time.pull_from_field(2,2))
+    response = (tool_time.pull_from_field(2,2))
 
 
 
-print()
-print('Done')
+    print()
+    print('Done')
