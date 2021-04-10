@@ -107,26 +107,12 @@ neoFun.set_ring_color((0,0,0))
 
 #---------------------------
 
-#This is the main loop which more or less does what is stated below
+#This is the format for the loops below, they both follow this basic structure
 """
 1.  Goes to Thingspeak and pulls down current Maker-E temp and RH
 2.  Updates lights and motor accordingly
 3.  Repeat infinitely 1 - 2 infinitely.
 """
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #This is a pretty simple way to do the assigment
