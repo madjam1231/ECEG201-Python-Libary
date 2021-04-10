@@ -39,14 +39,26 @@ def __check_color_valid(color):
             return False, "A RGB value is out of bounds(0-255)"
     return True, ""
 
-#Without flashrate, should we even have this? it just uses one line 
-def ring_color(color, ring = ring):
-    """Takes in `color`, and uses neopixels built in function to set all the LEDs to that color"""
+
+def set_pixel(color, pixel, ring = ring):
     #Make sure the color is valid
     valid_color, error_msg = __check_color_valid(color)
     if(not valid_color):
         print("ERROR:", error_msg)
         return
+
+    ring[pixel] = color
+
+def set_ring_color(color, ring = ring):
+    """Takes in `color`, and uses neopixels built in function to set all the LEDs to that color"""
+    
+    #Make sure the color is valid
+    valid_color, error_msg = __check_color_valid(color)
+    if(not valid_color):
+        print("ERROR:", error_msg)
+        return
+
+    
     ring.fill(color)
 
 
@@ -178,7 +190,7 @@ def animate_snake(color = (255,0,0), snake_length = 4, start_pos = 0, frames = 2
     """
     Just a fun little method for animating a snake for an amount of frames 
     """
-    #Clear the leds
+    #Clear the LEDS
     ring.fill((0,0,0))
 
     #Find the head color, which is just the inverse of the rest of the snake
@@ -206,8 +218,22 @@ def animate_snake(color = (255,0,0), snake_length = 4, start_pos = 0, frames = 2
         for i in range(0,10000):
             x += 1
             x -= 1
-        
 
+
+        
+def maprange( a, b, s):
+    # Did not write this got it from rosseta code
+    # https://rosettacode.org/wiki/Map_range#Python
+    #It takes in 3 aurguments,
+    # a: the original range of s
+    # b: the range you want to map s onto
+    # s: the value you want to map
+    # The function maps s from its original range onto a new one
+    # for eg, mapping maprange([0,10],[0,100],5) would return 50
+	(a1, a2), (b1, b2) = a, b
+	return  b1 + ((s - a1) * (b2 - b1) / (a2 - a1))
+
+    
 
 def wheel(pos):
     """

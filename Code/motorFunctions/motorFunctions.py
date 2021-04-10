@@ -26,11 +26,12 @@ class ECEGMotor():
     '''
     STEPS_FOR_FULL = 4096 #The number of steps for a full rotation
 
-    def __init__(self):
+    def __init__(self, debug):
         """
         The intilizer for the method, finds home by moving in a full circle
 
         """
+        self.__debug = debug
         self.__kit = MotorKit(i2c=board.I2C())
         self.__stepper = self.__kit.stepper1
         self.__find_home()
@@ -41,8 +42,12 @@ class ECEGMotor():
         """
         A private method for finding the peg on the device, just moves it CCW 1 full rotation
         """
+        if self.__debug:
+            print("Finding the home of the stepper moter")
         for i in range(ECEGMotor.STEPS_FOR_FULL):
            self.__stepper.onestep(direction = stepper.BACKWARD, style = stepper.DOUBLE)
+        if self.__debug:
+            print("Home found\n")
 
     def get_current_step(self):
         """
@@ -72,9 +77,13 @@ class ECEGMotor():
         """
         Takes in the position in degrees from home and then moves the arm to that location
 
-        Params: The position in degrees that you want the arm to go to, could be int or float
+        Params: The position in degrees that you want the arm to go to, could be int or float will do nothing if its not 0-360
         """
 
+        if(pos < 0 or pos > 360):
+            print("Input not between 0 and 360, the motor will not be moved")
+            return
+        
         goal_pos_in_steps = int(((pos/360) * ECEGMotor.STEPS_FOR_FULL)/2)
         
         steps_to_take =  goal_pos_in_steps - self.__current_step
