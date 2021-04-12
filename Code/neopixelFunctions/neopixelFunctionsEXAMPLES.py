@@ -11,7 +11,7 @@ NUM_LEDS = len(get_ring())
 #----------Examples-------------
 
 print("ring color and brightness setting")
-ring_color((255,0,255))
+set_ring_color((255,0,255))
 time.sleep(1)
 set_brightness(1)
 time.sleep(1)
