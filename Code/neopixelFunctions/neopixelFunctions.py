@@ -62,24 +62,7 @@ def set_ring_color(color, ring = ring):
     ring.fill(color)
 
 
-def fill_range(color, start_pos, end_pos, ring = ring):
-    #Error handling, makes sure the end pos is lower than the number of leds and that the start positon is greater than 0
-    if(end_pos > len(ring)):
-        print("ERROR: Your end position can't be more than the number of LEDS")
-        return
-    if(start_pos < 0):
-        print("ERROR: Your start position can't be less than 0")
-        return
-    #Make sure the color is valid
-    valid_color, error_msg = __check_color_valid(color)
-    if(not valid_color):
-        print("ERROR:", error_msg)
-        return
-
-    for i in range(start_pos, end_pos):
-        ring[i] = color
-
-def bar_graph(color, end_pos, fill_mode = True, start_pos = 0, ring = ring):
+def bar_graph(color, end_pos, fill_mode = True, start_pos = 0, ring = ring, clear = true):
     """
     Fills in all LEDs from start_pos(defaults to 0 inclusive) to end_pos(exclusive) with the color specified by `color`
 
@@ -100,7 +83,8 @@ def bar_graph(color, end_pos, fill_mode = True, start_pos = 0, ring = ring):
         return
 
     #Clear the ring before putting anything else on it
-    ring.fill((0,0,0))
+    if(clear):
+    	ring.fill((0,0,0))
 
 
     #If fill_mode is true then set the values of the
