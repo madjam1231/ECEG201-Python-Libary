@@ -46,10 +46,10 @@ import time
 #Change these for your purposes
 
 #Wifi and Thingspeak stuff
-NETWORK_NAME = "JamesDesktop"
-NETWORK_PASS = "Gemima12"
-THINGSPEAK_CHANNEL = 1221440
-THINGSPEAK_API_KEY = 'TPQROJW5N4FYQDQB'
+NETWORK_NAME = ""
+NETWORK_PASS = ""
+THINGSPEAK_CHANNEL = Number here
+THINGSPEAK_API_KEY = ''
 I2C = board.I2C()
 
 
