@@ -44,7 +44,7 @@ def set_pixel(color, pixel, ring = ring):
     #Make sure the color is valid
     valid_color, error_msg = __check_color_valid(color)
     if(not valid_color):
-        print("ERROR:", error_msg)
+        print("ERROR while attempting to use neopixelFunctions.set_pixel:", error_msg)
         return
 
     ring[pixel] = color
@@ -55,7 +55,7 @@ def set_ring_color(color, ring = ring):
     #Make sure the color is valid
     valid_color, error_msg = __check_color_valid(color)
     if(not valid_color):
-        print("ERROR:", error_msg)
+        print("ERROR while attempting to use neopixelFunctions.set_ring_color:", error_msg)
         return
 
     
@@ -221,17 +221,23 @@ def animate_snake(color = (255,0,0), snake_length = 4, start_pos = 0, frames = 2
 
 
         
-def maprange( a, b, s):
+def maprange( original_range, range_to_map_to, s, clamp = True):
     # Did not write this got it from rosseta code
     # https://rosettacode.org/wiki/Map_range#Python
     #It takes in 3 aurguments,
-    # a: the original range of s
-    # b: the range you want to map s onto
+    # original_range: the original range of s
+    # range_to_map_to: the range you want to map s onto
     # s: the value you want to map
+    # clamp: whether or not a value which exceeds the end mapping range will be clamped
     # The function maps s from its original range onto a new one
     # for eg, mapping maprange([0,10],[0,100],5) would return 50
-	(a1, a2), (b1, b2) = a, b
-	return  b1 + ((s - a1) * (b2 - b1) / (a2 - a1))
+	(a1, a2), (b1, b2) = original_range, range_to_map_to
+	return_value = b1 + ((s - a1) * (b2 - b1) / (a2 - a1))
+	if(return_value < b1):
+            return_value = b1
+        elif(return_value > b2):
+            return_value = b2
+	return  return_value
 
     
 

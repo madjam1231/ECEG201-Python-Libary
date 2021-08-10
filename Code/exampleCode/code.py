@@ -50,6 +50,7 @@ NETWORK_NAME = "JamesDesktop"
 NETWORK_PASS = "Gemima12"
 THINGSPEAK_CHANNEL = 1221440
 THINGSPEAK_API_KEY = 'TPQROJW5N4FYQDQB'
+I2C = board.I2C()
 
 
 #NeoPixel settings
@@ -61,8 +62,8 @@ DEBUG = True
 
 
 #The min and max tempature you should expect in the Maker-E
-TEMP_MIN = 50
-TEMP_MAX = 70
+TEMP_MIN = 40
+TEMP_MAX = 90
 TEMP_RANGE = [TEMP_MIN,TEMP_MAX]
 
 #The delay between each time it pulls from the thingspeak server and gets new data, in seconds
@@ -90,7 +91,7 @@ net_tool = espFun.ESP_Tools(NETWORK_NAME, NETWORK_PASS, THINGSPEAK_CHANNEL, THIN
 
 #'motor_tool' handles all the motor related functions
 #Calling this will automaticly make the motor try and find its home(i.e. try to make a full rotation and end up hitting the stop)
-motor_tool = motorFun.ECEGMotor(DEBUG)
+motor_tool = motorFun.ECEGMotor(I2C,DEBUG)
 
 #Flash the neoPixel to indicate that startup it done
 
@@ -137,7 +138,7 @@ def basic_loop():
     #In this case we are taking the tempature in the makerE which we assume will be within TEMP_RANGE
     #   and mapping it onto the new range of 0 to 255, the min and max values of a LED RBG value
     mapped_color = neoFun.maprange(TEMP_RANGE, [0,255], current_makerE_temp)
-
+    print(mapped_color)
 
     #This is setting the value of the Neopixel Ring, its
     #the values are RedGreenBlue, with each going from 0-255
