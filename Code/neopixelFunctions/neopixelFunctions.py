@@ -62,9 +62,7 @@ def set_ring_color(color, ring = ring):
     ring.fill(color)
 
 
-    
-
-def bar_graph(color, end_pos, fill_mode = True, start_pos = 0, ring = ring):
+def bar_graph(color, end_pos, fill_mode = True, start_pos = 0, ring = ring, clear = true):
     """
     Fills in all LEDs from start_pos(defaults to 0 inclusive) to end_pos(exclusive) with the color specified by `color`
 
@@ -85,7 +83,8 @@ def bar_graph(color, end_pos, fill_mode = True, start_pos = 0, ring = ring):
         return
 
     #Clear the ring before putting anything else on it
-    ring.fill((0,0,0))
+    if(clear):
+    	ring.fill((0,0,0))
 
 
     #If fill_mode is true then set the values of the
