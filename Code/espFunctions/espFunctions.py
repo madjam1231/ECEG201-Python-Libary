@@ -12,7 +12,10 @@ class ESP_Tools():
         self._pwd = pwd_input
         self._channel_ID = channel
         self._api_key = thingspeak_api_key
+        self.esp = None
+        self.spi = None
         self.setup()
+
        
     #Connects to wifi and sets up the board 
     def setup(self):
@@ -21,37 +24,58 @@ class ESP_Tools():
         esp32_ready = DigitalInOut(board.D11)
         esp32_reset = DigitalInOut(board.D12)
        
-        spi = busio.SPI(board.SCK, board.MOSI, board.MISO)
-        esp = adafruit_esp32spi.ESP_SPIcontrol(spi, esp32_cs, esp32_ready, esp32_reset)
+        self.spi = busio.SPI(board.SCK, board.MOSI, board.MISO)
+        self.esp = adafruit_esp32spi.ESP_SPIcontrol(self.spi, esp32_cs, esp32_ready, esp32_reset)
        
-        requests.set_socket(socket, esp)
+        requests.set_socket(socket, self.esp)
 
-        if esp.status == adafruit_esp32spi.WL_IDLE_STATUS:
+        if self.esp.status == adafruit_esp32spi.WL_IDLE_STATUS:
             print("ESP32 found and in idle mode")
            
         num_trys = 0
         max_num_trys = 5
         print("Connecting to network")
-        while not esp.is_connected:
+        while not self.esp.is_connected:
             num_trys += 1
             if( num_trys >= max_num_trys):
                 print("Unable to connect to wifi: Timeout error")
                 raise TimeoutError("Unable to connect to wifi: Timeout error")
             try:
-                esp.connect_AP(self._ssid, self._pwd)
+                self.esp.connect_AP(self._ssid, self._pwd)
             except RuntimeError as e:
                 print("could not connect to AP, retrying: ", e)
                 continue
-        print("Connected to", str(esp.ssid, "utf-8"), "\tRSSI:", esp.rssi)
-        print("My IP address is", esp.pretty_ip(esp.ip_address))
+        print("Connected to", str(self.esp.ssid, "utf-8"), "\tRSSI:", self.esp.rssi)
+        print("My IP address is", self.esp.pretty_ip(self.esp.ip_address))
        
+    def restart(self):
+        print("Reseting the socket")    
+        requests.set_socket(socket, self.esp)
 
+        if self.esp.status == adafruit_esp32spi.WL_IDLE_STATUS:
+            print("ESP32 found and in idle mode")
+           
+        num_trys = 0
+        max_num_trys = 5
+        print("Connecting to network")
+        while not self.esp.is_connected:
+            num_trys += 1
+            if( num_trys >= max_num_trys):
+                print("Unable to connect to wifi: Timeout error")
+                raise TimeoutError("Unable to connect to wifi: Timeout error")
+            try:
+                self.esp.connect_AP(self._ssid, self._pwd)
+            except RuntimeError as e:
+                print("could not connect to AP, retrying: ", e)
+                continue
+        print("Connected to", str(self.esp.ssid, "utf-8"), "\tRSSI:", self.esp.rssi)
+        print("My IP address is", self.esp.pretty_ip(self.esp.ip_address)) 
     #Pushes data to a specified field
     def push_to_field(self, field, data):
         request_msg = "https://api.thingspeak.com/update?api_key={}&field{}={}".format(self._api_key,field,data)
         print(request_msg)
         try:
-            r = requests.get(request_msg)
+            r = requests.post(request_msg)
             response = r.text
             r.close()
         except RuntimeError as e:
